@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211024081654_migrationlib")]
-    partial class migrationlib
+    [Migration("20211027105209_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,41 +21,41 @@ namespace ConsoleApp1.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ConsoleApp1.Autor", b =>
+            modelBuilder.Entity("ConsoleApp1.Author", b =>
                 {
-                    b.Property<int>("autorId")
+                    b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("autorName")
+                    b.Property<string>("AuthorName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("birth")
+                    b.Property<DateTime>("Birth")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("death")
+                    b.Property<DateTime>("Death")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("originalName")
+                    b.Property<string>("OriginalName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("autorId");
+                    b.HasKey("AuthorId");
 
-                    b.HasIndex("autorName")
+                    b.HasIndex("AuthorName")
                         .HasDatabaseName("a_name_idx");
 
-                    b.ToTable("Autors");
+                    b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.AutorPseudonym", b =>
+            modelBuilder.Entity("ConsoleApp1.AuthorPseudonym", b =>
                 {
                     b.Property<int>("PseudonymId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AutorId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<int>("PseudonymId1")
@@ -63,38 +63,38 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("PseudonymId");
 
-                    b.HasIndex("AutorId");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("PseudonymId1");
 
-                    b.ToTable("AutorPseudonyms");
+                    b.ToTable("AuthorPseudonyms");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.AutorWork", b =>
+            modelBuilder.Entity("ConsoleApp1.AuthorWork", b =>
                 {
-                    b.Property<int>("AutorId")
+                    b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AuthorId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("WorkId")
                         .HasColumnType("int");
 
-                    b.Property<int>("autorId")
-                        .HasColumnType("int");
+                    b.HasKey("AuthorId");
 
-                    b.HasKey("AutorId");
+                    b.HasIndex("AuthorId1");
 
                     b.HasIndex("WorkId");
 
-                    b.HasIndex("autorId");
-
-                    b.ToTable("AutorWorks");
+                    b.ToTable("AuthorWorks");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Bookstory", b =>
                 {
-                    b.Property<int>("BoodId")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -114,7 +114,7 @@ namespace ConsoleApp1.Migrations
                     b.Property<int>("WorkId")
                         .HasColumnType("int");
 
-                    b.HasKey("BoodId");
+                    b.HasKey("BookId");
 
                     b.HasIndex("WorkId");
 
@@ -234,11 +234,11 @@ namespace ConsoleApp1.Migrations
                     b.ToTable("WorkWorks");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.AutorPseudonym", b =>
+            modelBuilder.Entity("ConsoleApp1.AuthorPseudonym", b =>
                 {
-                    b.HasOne("ConsoleApp1.Autor", "Autor")
+                    b.HasOne("ConsoleApp1.Author", "Author")
                         .WithMany()
-                        .HasForeignKey("AutorId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -248,72 +248,72 @@ namespace ConsoleApp1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Autor");
+                    b.Navigation("Author");
 
                     b.Navigation("pseudonym");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.AutorWork", b =>
+            modelBuilder.Entity("ConsoleApp1.AuthorWork", b =>
                 {
-                    b.HasOne("ConsoleApp1.Work", "work")
+                    b.HasOne("ConsoleApp1.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ConsoleApp1.Work", "Work")
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ConsoleApp1.Autor", "autor")
-                        .WithMany()
-                        .HasForeignKey("autorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Author");
 
-                    b.Navigation("autor");
-
-                    b.Navigation("work");
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Bookstory", b =>
                 {
-                    b.HasOne("ConsoleApp1.Work", "work")
+                    b.HasOne("ConsoleApp1.Work", "Work")
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("work");
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ConsoleApp1.JournalPublication", b =>
                 {
-                    b.HasOne("ConsoleApp1.Work", "work")
+                    b.HasOne("ConsoleApp1.Work", "Work")
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("work");
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Translation", b =>
                 {
-                    b.HasOne("ConsoleApp1.Work", "work")
+                    b.HasOne("ConsoleApp1.Work", "Work")
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("work");
+                    b.Navigation("Work");
                 });
 
             modelBuilder.Entity("ConsoleApp1.WorkWork", b =>
                 {
-                    b.HasOne("ConsoleApp1.Work", "work")
+                    b.HasOne("ConsoleApp1.Work", "Work")
                         .WithMany()
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("work");
+                    b.Navigation("Work");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,10 +8,10 @@ namespace ConsoleApp1
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                Autor autor1 = new Autor { autorName = "Debil", birth = new DateTime(1991,1,1), originalName = "Me" };
-                Autor autor2 = new Autor { autorName = "Norm", birth = new DateTime(1996, 1 ,23), originalName = "Test" };
+                Author autor1 = new Author { AuthorName = "Debil", Birth = new DateTime(1991,1,1), OriginalName = "Me" };
+                Author autor2 = new Author { AuthorName = "Norm", Birth = new DateTime(1996, 1 ,23), OriginalName = "Test" };
 
-                db.Autors.AddRange(autor1, autor2);
+                db.Authors.AddRange(autor1, autor2);
                 db.SaveChanges();
             }
         }
