@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class AutorWork
+    public class AuthorWork
     {
-        public int AutorId { get; set; }
+        public int AuthorId { get; set; }
         public int WorkId { get; set; }
 
-        public Autor Autor { get; set; }
+        public Author Author { get; set; }
         public Work Work { get; set; }
     }
 }

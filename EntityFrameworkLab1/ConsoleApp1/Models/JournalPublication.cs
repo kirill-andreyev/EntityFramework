@@ -16,6 +16,6 @@ namespace ConsoleApp1
         public int Pages { get; set; }
         public string Quality { get; set; }
 
-        public Work work { get; set; }
+        public Work Work { get; set; }
     }
 }

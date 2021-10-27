@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class AutorPseudonym
+    public class AuthorPseudonym
     {
 
         public int PseudonymId { get; set; }
-        public int AutorId { get; set; }
+        public int AuthorId { get; set; }
 
-        public Autor Autor { get; set; }
-        public Pseudonym pseudonym { get; set; }
+        public Author Author { get; set; }
+        public Pseudonym Pseudonym { get; set; }
     }
 }

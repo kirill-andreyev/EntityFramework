@@ -3,24 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ConsoleApp1.Migrations
 {
-    public partial class migrationlib : Migration
+    public partial class migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Autors",
+                name: "Authors",
                 columns: table => new
                 {
-                    autorId = table.Column<int>(type: "int", nullable: false)
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    autorName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    originalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    birth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    death = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AuthorName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Birth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Death = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Autors", x => x.autorId);
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,25 +50,25 @@ namespace ConsoleApp1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AutorPseudonyms",
+                name: "AuthorPseudonyms",
                 columns: table => new
                 {
                     PseudonymId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AutorId = table.Column<int>(type: "int", nullable: false),
+                    AuthorId = table.Column<int>(type: "int", nullable: false),
                     PseudonymId1 = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AutorPseudonyms", x => x.PseudonymId);
+                    table.PrimaryKey("PK_AuthorPseudonyms", x => x.PseudonymId);
                     table.ForeignKey(
-                        name: "FK_AutorPseudonyms_Autors_AutorId",
-                        column: x => x.AutorId,
-                        principalTable: "Autors",
-                        principalColumn: "autorId",
+                        name: "FK_AuthorPseudonyms_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AutorPseudonyms_Pseudonyms_PseudonymId1",
+                        name: "FK_AuthorPseudonyms_Pseudonyms_PseudonymId1",
                         column: x => x.PseudonymId1,
                         principalTable: "Pseudonyms",
                         principalColumn: "PseudonymId",
@@ -76,25 +76,25 @@ namespace ConsoleApp1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AutorWorks",
+                name: "AuthorWorks",
                 columns: table => new
                 {
-                    AutorId = table.Column<int>(type: "int", nullable: false)
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkId = table.Column<int>(type: "int", nullable: false),
-                    autorId = table.Column<int>(type: "int", nullable: false)
+                    AuthorId1 = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AutorWorks", x => x.AutorId);
+                    table.PrimaryKey("PK_AuthorWorks", x => x.AuthorId);
                     table.ForeignKey(
-                        name: "FK_AutorWorks_Autors_autorId",
-                        column: x => x.autorId,
-                        principalTable: "Autors",
-                        principalColumn: "autorId",
+                        name: "FK_AuthorWorks_Authors_AuthorId1",
+                        column: x => x.AuthorId1,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AutorWorks_Works_WorkId",
+                        name: "FK_AuthorWorks_Works_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Works",
                         principalColumn: "WorkId",
@@ -105,7 +105,7 @@ namespace ConsoleApp1.Migrations
                 name: "Bookstories",
                 columns: table => new
                 {
-                    BoodId = table.Column<int>(type: "int", nullable: false)
+                    BookId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WorkId = table.Column<int>(type: "int", nullable: false),
                     PubDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -115,7 +115,7 @@ namespace ConsoleApp1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookstories", x => x.BoodId);
+                    table.PrimaryKey("PK_Bookstories", x => x.BookId);
                     table.ForeignKey(
                         name: "FK_Bookstories_Works_WorkId",
                         column: x => x.WorkId,
@@ -193,28 +193,28 @@ namespace ConsoleApp1.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutorPseudonyms_AutorId",
-                table: "AutorPseudonyms",
-                column: "AutorId");
+                name: "IX_AuthorPseudonyms_AuthorId",
+                table: "AuthorPseudonyms",
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutorPseudonyms_PseudonymId1",
-                table: "AutorPseudonyms",
+                name: "IX_AuthorPseudonyms_PseudonymId1",
+                table: "AuthorPseudonyms",
                 column: "PseudonymId1");
 
             migrationBuilder.CreateIndex(
                 name: "a_name_idx",
-                table: "Autors",
-                column: "autorName");
+                table: "Authors",
+                column: "AuthorName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutorWorks_autorId",
-                table: "AutorWorks",
-                column: "autorId");
+                name: "IX_AuthorWorks_AuthorId1",
+                table: "AuthorWorks",
+                column: "AuthorId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AutorWorks_WorkId",
-                table: "AutorWorks",
+                name: "IX_AuthorWorks_WorkId",
+                table: "AuthorWorks",
                 column: "WorkId");
 
             migrationBuilder.CreateIndex(
@@ -236,10 +236,10 @@ namespace ConsoleApp1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AutorPseudonyms");
+                name: "AuthorPseudonyms");
 
             migrationBuilder.DropTable(
-                name: "AutorWorks");
+                name: "AuthorWorks");
 
             migrationBuilder.DropTable(
                 name: "Bookstories");
@@ -257,7 +257,7 @@ namespace ConsoleApp1.Migrations
                 name: "Pseudonyms");
 
             migrationBuilder.DropTable(
-                name: "Autors");
+                name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Works");
