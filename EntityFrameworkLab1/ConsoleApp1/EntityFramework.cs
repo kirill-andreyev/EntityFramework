@@ -4,6 +4,18 @@ namespace ConsoleApp1
 {
     public class ApplicationContext : DbContext
     {
+        private readonly string _connectionString;
+
+        public ApplicationContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
+        }
+
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorPseudonym> AuthorPseudonyms { get; set; }
         public DbSet<AuthorWork> AuthorWorks { get; set; }
@@ -13,16 +25,6 @@ namespace ConsoleApp1
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Work> Works { get; set; }
         public DbSet<WorkWork> WorkWorks { get; set; }
-        
-
-        public ApplicationContext()
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=.;Database=csharplabs;Trusted_Connection=True;");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
