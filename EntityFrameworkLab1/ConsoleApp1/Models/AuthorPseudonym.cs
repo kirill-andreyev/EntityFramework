@@ -8,11 +8,9 @@ namespace ConsoleApp1
 {
     public class AuthorPseudonym
     {
-
         public int PseudonymId { get; set; }
+        public virtual Pseudonym Pseudonym { get; set; }
         public int AuthorId { get; set; }
-
-        public Author Author { get; set; }
-        public Pseudonym Pseudonym { get; set; }
+        public virtual Author Author { get; set; }
     }
 }

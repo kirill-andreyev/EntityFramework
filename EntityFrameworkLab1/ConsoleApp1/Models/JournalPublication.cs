@@ -10,12 +10,11 @@ namespace ConsoleApp1
     {
         public int JournalPublicationId { get; set; }
         public int WorkId { get; set; }
+        public virtual Work Work { get; set; }
         public string JournalName { get; set; }
         public int Release { get; set; }
         public DateTime PubDate { get; set; }
         public int Pages { get; set; }
         public string Quality { get; set; }
-
-        public Work Work { get; set; }
     }
 }

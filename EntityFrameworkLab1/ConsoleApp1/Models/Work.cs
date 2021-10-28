@@ -10,5 +10,6 @@ namespace ConsoleApp1
     {
         public int WorkId { get; set; }
         public string Title { get; set; }
+        virtual public List<WorkWork> WorkWork { get; set; }
     }
 }

@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace ConsoleApp1
 {
@@ -6,9 +10,13 @@ namespace ConsoleApp1
     {
         private readonly string _connectionString;
 
-        public ApplicationContext(string connectionString)
+        public ApplicationContext()
         {
-            _connectionString = connectionString;
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+            var config = builder.Build();
+            _connectionString = config.GetConnectionString("DefaultConnection");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -33,6 +41,7 @@ namespace ConsoleApp1
             modelBuilder.Entity<AuthorWork>().HasKey(a => a.AuthorId);
             modelBuilder.Entity<Bookstory>().HasKey(b => b.BookId);
             modelBuilder.Entity<WorkWork>().HasKey(w => new {w.WorkId, w.WorkId1 });
+            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work).WithMany(W => W.WorkWork);
         }
     }
 }
