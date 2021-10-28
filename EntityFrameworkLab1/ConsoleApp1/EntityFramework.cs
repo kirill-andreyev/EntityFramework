@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
+=======
+﻿using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+>>>>>>> 5a5b237888378951ddd6d6eab27f981ff5ba4976
 
 namespace ConsoleApp1
 {
