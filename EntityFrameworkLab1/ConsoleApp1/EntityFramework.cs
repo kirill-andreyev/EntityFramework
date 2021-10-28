@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ConsoleApp1
 {
@@ -6,9 +8,13 @@ namespace ConsoleApp1
     {
         private readonly string _connectionString;
 
-        public ApplicationContext(string connectionString)
+        public ApplicationContext()
         {
-            _connectionString = connectionString;
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+            var config = builder.Build();
+            _connectionString = config.GetConnectionString("DefaultConnection");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
