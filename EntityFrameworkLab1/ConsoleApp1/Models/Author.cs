@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace ConsoleApp1
+namespace EFLAB1
 {
     public class Author
     {

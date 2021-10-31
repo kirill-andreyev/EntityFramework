@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 
-namespace ConsoleApp1
+namespace EFLAB1
 {
     public class ApplicationContext : DbContext
     {
@@ -41,7 +41,8 @@ namespace ConsoleApp1
             modelBuilder.Entity<AuthorWork>().HasKey(a => a.AuthorId);
             modelBuilder.Entity<Bookstory>().HasKey(b => b.BookId);
             modelBuilder.Entity<WorkWork>().HasKey(w => new {w.WorkId, w.WorkId1 });
-            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work).WithMany(W => W.WorkWork);
+            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work).WithMany(W => W.WorkWork).HasForeignKey(W => W.WorkId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work1).WithMany(W => W.WorkWork1).HasForeignKey(W => W.WorkId1).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

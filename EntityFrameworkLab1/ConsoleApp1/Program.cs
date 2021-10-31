@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 
-namespace ConsoleApp1
+namespace EFLAB1
 {
     class Program
     {
