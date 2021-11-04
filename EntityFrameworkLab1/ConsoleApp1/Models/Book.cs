@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace EFLAB1
 {
-    public class AuthorWork
+    public class Book
     {
-        public int AuthorId { get; set; }
-        public virtual Author Author { get; set; }
+        public int BookId { get; set; }
         public int WorkId { get; set; }
         public virtual Work Work { get; set; }
+        public DateTime PubDate { get; set; }
+        public string BookName { get; set; }
+        public int Pages { get; set; }
+        public string  Quality { get; set; }
     }
 }

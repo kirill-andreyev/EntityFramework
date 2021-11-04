@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EntityFrameworkLab.Migrations
 {
-    public partial class migration : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,85 +24,27 @@ namespace EntityFrameworkLab.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pseudonyms",
-                columns: table => new
-                {
-                    PseudonymId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PseudonymName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pseudonyms", x => x.PseudonymId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Works",
                 columns: table => new
                 {
                     WorkId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuthorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Works", x => x.WorkId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AuthorPseudonyms",
-                columns: table => new
-                {
-                    PseudonymId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PseudonymId1 = table.Column<int>(type: "int", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuthorPseudonyms", x => x.PseudonymId);
                     table.ForeignKey(
-                        name: "FK_AuthorPseudonyms_Authors_AuthorId",
+                        name: "FK_Works_Authors_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuthorPseudonyms_Pseudonyms_PseudonymId1",
-                        column: x => x.PseudonymId1,
-                        principalTable: "Pseudonyms",
-                        principalColumn: "PseudonymId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "AuthorWorks",
-                columns: table => new
-                {
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuthorId1 = table.Column<int>(type: "int", nullable: false),
-                    WorkId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AuthorWorks", x => x.AuthorId);
-                    table.ForeignKey(
-                        name: "FK_AuthorWorks_Authors_AuthorId1",
-                        column: x => x.AuthorId1,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AuthorWorks_Works_WorkId",
-                        column: x => x.WorkId,
-                        principalTable: "Works",
-                        principalColumn: "WorkId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bookstories",
+                name: "Books",
                 columns: table => new
                 {
                     BookId = table.Column<int>(type: "int", nullable: false)
@@ -115,9 +57,27 @@ namespace EntityFrameworkLab.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookstories", x => x.BookId);
+                    table.PrimaryKey("PK_Books", x => x.BookId);
                     table.ForeignKey(
-                        name: "FK_Bookstories_Works_WorkId",
+                        name: "FK_Books_Works_WorkId",
+                        column: x => x.WorkId,
+                        principalTable: "Works",
+                        principalColumn: "WorkId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Collection",
+                columns: table => new
+                {
+                    WorkId = table.Column<int>(type: "int", nullable: false),
+                    Work1Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collection", x => new { x.Work1Id, x.WorkId });
+                    table.ForeignKey(
+                        name: "FK_Collection_Works_WorkId",
                         column: x => x.WorkId,
                         principalTable: "Works",
                         principalColumn: "WorkId",
@@ -174,84 +134,48 @@ namespace EntityFrameworkLab.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "WorkWorks",
-                columns: table => new
-                {
-                    WorkId = table.Column<int>(type: "int", nullable: false),
-                    WorkId1 = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WorkWorks", x => new { x.WorkId, x.WorkId1 });
-                    table.ForeignKey(
-                        name: "FK_WorkWorks_Works_WorkId",
-                        column: x => x.WorkId,
-                        principalTable: "Works",
-                        principalColumn: "WorkId");
-                    table.ForeignKey(
-                        name: "FK_WorkWorks_Works_WorkId1",
-                        column: x => x.WorkId1,
-                        principalTable: "Works",
-                        principalColumn: "WorkId");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuthorPseudonyms_AuthorId",
-                table: "AuthorPseudonyms",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AuthorPseudonyms_PseudonymId1",
-                table: "AuthorPseudonyms",
-                column: "PseudonymId1");
-
             migrationBuilder.CreateIndex(
                 name: "a_name_idx",
                 table: "Authors",
                 column: "AuthorName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorWorks_AuthorId1",
-                table: "AuthorWorks",
-                column: "AuthorId1");
+                name: "IX_Books_WorkId",
+                table: "Books",
+                column: "WorkId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorWorks_WorkId",
-                table: "AuthorWorks",
-                column: "WorkId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookstories_WorkId",
-                table: "Bookstories",
+                name: "IX_Collection_WorkId",
+                table: "Collection",
                 column: "WorkId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JournalPublications_WorkId",
                 table: "JournalPublications",
-                column: "WorkId");
+                column: "WorkId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Translations_WorkId",
                 table: "Translations",
-                column: "WorkId");
+                column: "WorkId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkWorks_WorkId1",
-                table: "WorkWorks",
-                column: "WorkId1");
+                name: "IX_Works_AuthorId",
+                table: "Works",
+                column: "AuthorId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuthorPseudonyms");
+                name: "Books");
 
             migrationBuilder.DropTable(
-                name: "AuthorWorks");
-
-            migrationBuilder.DropTable(
-                name: "Bookstories");
+                name: "Collection");
 
             migrationBuilder.DropTable(
                 name: "JournalPublications");
@@ -260,16 +184,10 @@ namespace EntityFrameworkLab.Migrations
                 name: "Translations");
 
             migrationBuilder.DropTable(
-                name: "WorkWorks");
-
-            migrationBuilder.DropTable(
-                name: "Pseudonyms");
+                name: "Works");
 
             migrationBuilder.DropTable(
                 name: "Authors");
-
-            migrationBuilder.DropTable(
-                name: "Works");
         }
     }
 }

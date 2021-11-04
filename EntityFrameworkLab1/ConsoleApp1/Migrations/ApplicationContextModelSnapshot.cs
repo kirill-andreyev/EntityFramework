@@ -46,51 +46,7 @@ namespace EntityFrameworkLab.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("EFLAB1.AuthorPseudonym", b =>
-                {
-                    b.Property<int>("PseudonymId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PseudonymId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("PseudonymId");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("PseudonymId1");
-
-                    b.ToTable("AuthorPseudonyms");
-                });
-
-            modelBuilder.Entity("EFLAB1.AuthorWork", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuthorId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId");
-
-                    b.HasIndex("AuthorId1");
-
-                    b.HasIndex("WorkId");
-
-                    b.ToTable("AuthorWorks");
-                });
-
-            modelBuilder.Entity("EFLAB1.Bookstory", b =>
+            modelBuilder.Entity("EFLAB1.Book", b =>
                 {
                     b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
@@ -114,9 +70,25 @@ namespace EntityFrameworkLab.Migrations
 
                     b.HasKey("BookId");
 
+                    b.HasIndex("WorkId")
+                        .IsUnique();
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("EFLAB1.Collection", b =>
+                {
+                    b.Property<int>("Work1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Work1Id", "WorkId");
+
                     b.HasIndex("WorkId");
 
-                    b.ToTable("Bookstories");
+                    b.ToTable("Collection");
                 });
 
             modelBuilder.Entity("EFLAB1.JournalPublication", b =>
@@ -146,24 +118,10 @@ namespace EntityFrameworkLab.Migrations
 
                     b.HasKey("JournalPublicationId");
 
-                    b.HasIndex("WorkId");
+                    b.HasIndex("WorkId")
+                        .IsUnique();
 
                     b.ToTable("JournalPublications");
-                });
-
-            modelBuilder.Entity("EFLAB1.Pseudonym", b =>
-                {
-                    b.Property<int>("PseudonymId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("PseudonymName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PseudonymId");
-
-                    b.ToTable("Pseudonyms");
                 });
 
             modelBuilder.Entity("EFLAB1.Translation", b =>
@@ -199,7 +157,8 @@ namespace EntityFrameworkLab.Migrations
 
                     b.HasKey("TranslationId");
 
-                    b.HasIndex("WorkId");
+                    b.HasIndex("WorkId")
+                        .IsUnique();
 
                     b.ToTable("Translations");
                 });
@@ -211,71 +170,35 @@ namespace EntityFrameworkLab.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("WorkId");
 
+                    b.HasIndex("AuthorId")
+                        .IsUnique();
+
                     b.ToTable("Works");
                 });
 
-            modelBuilder.Entity("EFLAB1.WorkWork", b =>
+            modelBuilder.Entity("EFLAB1.Book", b =>
                 {
-                    b.Property<int>("WorkId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("WorkId", "WorkId1");
-
-                    b.HasIndex("WorkId1");
-
-                    b.ToTable("WorkWorks");
-                });
-
-            modelBuilder.Entity("EFLAB1.AuthorPseudonym", b =>
-                {
-                    b.HasOne("EFLAB1.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFLAB1.Pseudonym", "Pseudonym")
-                        .WithMany()
-                        .HasForeignKey("PseudonymId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Pseudonym");
-                });
-
-            modelBuilder.Entity("EFLAB1.AuthorWork", b =>
-                {
-                    b.HasOne("EFLAB1.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EFLAB1.Work", "Work")
-                        .WithMany()
-                        .HasForeignKey("WorkId")
+                        .WithOne("Book")
+                        .HasForeignKey("EFLAB1.Book", "WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Author");
 
                     b.Navigation("Work");
                 });
 
-            modelBuilder.Entity("EFLAB1.Bookstory", b =>
+            modelBuilder.Entity("EFLAB1.Collection", b =>
                 {
                     b.HasOne("EFLAB1.Work", "Work")
-                        .WithMany()
+                        .WithMany("Collections")
                         .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -286,8 +209,8 @@ namespace EntityFrameworkLab.Migrations
             modelBuilder.Entity("EFLAB1.JournalPublication", b =>
                 {
                     b.HasOne("EFLAB1.Work", "Work")
-                        .WithMany()
-                        .HasForeignKey("WorkId")
+                        .WithOne("JournalPublication")
+                        .HasForeignKey("EFLAB1.JournalPublication", "WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -297,38 +220,39 @@ namespace EntityFrameworkLab.Migrations
             modelBuilder.Entity("EFLAB1.Translation", b =>
                 {
                     b.HasOne("EFLAB1.Work", "Work")
-                        .WithMany()
-                        .HasForeignKey("WorkId")
+                        .WithOne("Translation")
+                        .HasForeignKey("EFLAB1.Translation", "WorkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Work");
                 });
 
-            modelBuilder.Entity("EFLAB1.WorkWork", b =>
+            modelBuilder.Entity("EFLAB1.Work", b =>
                 {
-                    b.HasOne("EFLAB1.Work", "Work")
-                        .WithMany("WorkWork")
-                        .HasForeignKey("WorkId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("EFLAB1.Author", "Author")
+                        .WithOne("Work")
+                        .HasForeignKey("EFLAB1.Work", "AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFLAB1.Work", "Work1")
-                        .WithMany("WorkWork1")
-                        .HasForeignKey("WorkId1")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("Author");
+                });
 
+            modelBuilder.Entity("EFLAB1.Author", b =>
+                {
                     b.Navigation("Work");
-
-                    b.Navigation("Work1");
                 });
 
             modelBuilder.Entity("EFLAB1.Work", b =>
                 {
-                    b.Navigation("WorkWork");
+                    b.Navigation("Book");
 
-                    b.Navigation("WorkWork1");
+                    b.Navigation("Collections");
+
+                    b.Navigation("JournalPublication");
+
+                    b.Navigation("Translation");
                 });
 #pragma warning restore 612, 618
         }

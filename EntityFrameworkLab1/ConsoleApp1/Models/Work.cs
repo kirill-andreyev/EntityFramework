@@ -10,7 +10,12 @@ namespace EFLAB1
     {
         public int WorkId { get; set; }
         public string Title { get; set; }
-        public virtual List<WorkWork> WorkWork { get; set; }
-        public virtual List<WorkWork> WorkWork1 { get; set; }
+        public int AuthorId { get; set; }
+        public virtual Author Author { get; set; }
+        public virtual List<Work> Works { get; set; }
+        public virtual List<Collection> Collections { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual JournalPublication JournalPublication { get; set; }
+        public virtual Translation Translation { get; set; }
     }
 }

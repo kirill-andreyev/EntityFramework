@@ -25,24 +25,17 @@ namespace EFLAB1
         }
 
         public DbSet<Author> Authors { get; set; }
-        public DbSet<AuthorPseudonym> AuthorPseudonyms { get; set; }
-        public DbSet<AuthorWork> AuthorWorks { get; set; }
-        public DbSet<Bookstory> Bookstories { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet<JournalPublication> JournalPublications { get; set; }
-        public DbSet<Pseudonym> Pseudonyms { get; set; }
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Work> Works { get; set; }
-        public DbSet<WorkWork> WorkWorks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().HasIndex(a => a.AuthorName).HasDatabaseName("a_name_idx");
-            modelBuilder.Entity<AuthorPseudonym>().HasKey(p => p.PseudonymId);
-            modelBuilder.Entity<AuthorWork>().HasKey(a => a.AuthorId);
-            modelBuilder.Entity<Bookstory>().HasKey(b => b.BookId);
-            modelBuilder.Entity<WorkWork>().HasKey(w => new {w.WorkId, w.WorkId1 });
-            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work).WithMany(W => W.WorkWork).HasForeignKey(W => W.WorkId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<WorkWork>().HasOne(w => w.Work1).WithMany(W => W.WorkWork1).HasForeignKey(W => W.WorkId1).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Collection>().HasKey(C => new { C.Work1Id, C.WorkId });
+            modelBuilder.Entity<Work>().HasMany(W => W.Works).WithMany(W => W.Works)
+                .UsingEntity<Collection>(C => C.HasOne(C => C.Work).WithMany(W => W.Collections).HasForeignKey(C => C.WorkId), C => C.HasOne(C => C.Work).WithMany(W => W.Collections).HasForeignKey(C => C.Work1Id));
         }
     }
 }
