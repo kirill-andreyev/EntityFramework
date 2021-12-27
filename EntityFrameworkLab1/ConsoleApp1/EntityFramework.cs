@@ -30,10 +30,12 @@ namespace EFLAB1
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Work> Works { get; set; }
         public DbSet<Archive> Archives { get; set; }
+        public DbSet<AuthorPublicationView> authorPublicationViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Author>().HasIndex(a => a.AuthorName).HasDatabaseName("a_name_idx");
+            modelBuilder.Entity<AuthorPublicationView>((apv => { apv.HasNoKey(); apv.ToView("AuthorPublications"); }));
         }
     }
 }
