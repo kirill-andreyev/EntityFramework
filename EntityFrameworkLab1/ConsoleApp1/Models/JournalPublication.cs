@@ -9,8 +9,6 @@ namespace EFLAB1
     public class JournalPublication
     {
         public int Id { get; set; }
-        public int WorkId { get; set; }
-        public virtual Work Work { get; set; }
         public string JournalName { get; set; }
         public int Release { get; set; }
         public DateTime PubDate { get; set; }

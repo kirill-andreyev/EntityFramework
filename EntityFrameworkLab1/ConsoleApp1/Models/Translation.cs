@@ -9,8 +9,6 @@ namespace EFLAB1
     public class Translation
     {
         public int Id { get; set; }
-        public int WorkId { get; set; }
-        public virtual Work Work { get; set; }
         public string OriginalAutor { get; set; }
         public string OriginalTitle { get; set; }
         public string Title { get; set; }

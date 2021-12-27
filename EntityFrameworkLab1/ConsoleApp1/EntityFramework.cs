@@ -29,6 +29,7 @@ namespace EFLAB1
         public DbSet<JournalPublication> JournalPublications { get; set; }
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Work> Works { get; set; }
+        public DbSet<Archive> Archives { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
