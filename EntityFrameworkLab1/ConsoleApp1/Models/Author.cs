@@ -10,6 +10,5 @@ namespace EFLAB1
         public string OriginalName { get; set; }
         public DateTime Birth { get; set; }
         public DateTime Death { get; set; }
-        public virtual Work Work { get; set; }
     }
 }
